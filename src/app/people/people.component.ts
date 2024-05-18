@@ -68,6 +68,7 @@ export class PeopleComponent implements OnInit, OnDestroy {
       });
   }
   ngOnDestroy(): void {
-    this.timerSubscription.unsubscribe();
+    this.timer.stop();
+    this.timerSubscription?.unsubscribe();
   }
 }

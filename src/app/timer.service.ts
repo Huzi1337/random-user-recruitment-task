@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { Subject, Subscription, interval } from 'rxjs';
+import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
+import { Subject, Subscription, interval, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,7 @@ export class TimerService {
   }
 
   reset() {
-    this.timeElapsed = this.timedInterval;
+    this.timeElapsed = 0;
   }
 
   start() {
@@ -38,6 +38,10 @@ export class TimerService {
   }
 
   pause() {
-    this.subscription.unsubscribe();
+    this.subscription?.unsubscribe();
+  }
+  stop() {
+    this.pause();
+    this.reset();
   }
 }

@@ -1,0 +1,18 @@
+@use "../assets/colors";
+
+.navbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  padding: 24px;
+  a {
+    color: colors.$main;
+    font-weight: 400;
+    text-decoration: none;
+  }
+}
+.active {
+  font-weight: 700;
+}
