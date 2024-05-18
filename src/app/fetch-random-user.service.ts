@@ -1,23 +1,30 @@
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpParams,
-} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, tap, throwError } from 'rxjs';
+import { LoadingHandlerService } from './loading-handler.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FetchRandomUserService {
-  API_URL = 'https://randomuser.me/api';
+  API_URL = 'https://randomuser.me/api/1.4/';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    public loadingHandler: LoadingHandlerService
+  ) {}
 
-  fetchRandomUserData<T>(params: { [param: string]: string }) {
-    return this.http
-      .get<T>(this.API_URL, { params })
-      .pipe(catchError(this.handleError));
+  fetchRandomUserData<T>(params: {
+    [param: string]: string | boolean | number;
+  }) {
+    this.loadingHandler.start();
+    return this.http.get<T>(this.API_URL, { params }).pipe(
+      catchError(this.handleError),
+      tap(() => {
+        this.loadingHandler.finish();
+        console.log('Loading finished');
+      })
+    );
   }
 
   private handleError(error: HttpErrorResponse) {
