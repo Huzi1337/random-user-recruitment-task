@@ -1,1 +1,12 @@
-<p>people works!</p>
+<div (mouseover)="timer.pause()" (mouseleave)="timer.start()">
+  {{ timer.timeElapsed }}
+</div>
+<button (click)="fetchNewUser()">Bass</button>
+<p *ngIf="userName">{{ userName }}</p>
+<img
+  *ngIf="!(fetchRandomUser.loadingHandler.isLoading$ | async) && userPicture"
+  [ngSrc]="userPicture"
+  width="300"
+  height="300"
+  priority
+/>
