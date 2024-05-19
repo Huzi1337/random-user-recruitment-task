@@ -43,7 +43,6 @@ export class TimerService {
 
   pause() {
     this.subscription?.unsubscribe();
-    console.log('timer stopped', this.subscription?.closed);
   }
   stop() {
     this.pause();

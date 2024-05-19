@@ -1,0 +1,7 @@
+<img
+  [ngClass]="{ image: true, hidden: (loader.isLoading$ | async) }"
+  [ngSrc]="imageURL"
+  (load)="onLoad()"
+  fill
+  priority
+/>

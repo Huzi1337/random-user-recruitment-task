@@ -1,0 +1,43 @@
+:host {
+  position: absolute;
+  inset: 0;
+}
+.imageContainer {
+  position: absolute;
+  inset: 0;
+}
+
+.image {
+  animation: appear 100ms ease-in;
+  opacity: 1;
+  transition-duration: 200ms;
+}
+.image.loading {
+  opacity: 0;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.loading {
+  background-color: gray;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
