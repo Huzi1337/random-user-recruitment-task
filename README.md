@@ -1,4 +1,12 @@
-# DataedoRecruitmentTask
+# Description
+
+This is my implementation of a recruitment task. The task:
+
+Write application in Angular. The People and About tabs are seperated pages (router outlets)
+
+The people tab should display a random user from randomuser.me API (photo and name). If a user clicks the “New” button the data should be reloaded with new data from the API. Also, every 5 seconds data should be reloaded, but the timer should reset every time the user clicks the “New” button and the timer should stop counting if the user’s cursor is under photo, name, or button (prevents from reloading data when for example user trying to copy name).
+About is a static page with a text description of the recruitment task (you're currently reading it).
+Both pages should look similar to the attached graphics. Please focus on code readability and application performance (imagine that these are only 2 subpages of a huge application).
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.7.
 
