@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Subject, Subscription, interval, tap } from 'rxjs';
 
 @Injectable({
@@ -22,8 +22,12 @@ export class TimerService {
   }
 
   start() {
-    if (isPlatformBrowser(this.platformId)) {
+    if (
+      isPlatformBrowser(this.platformId) &&
+      (!this.subscription || this.subscription?.closed)
+    ) {
       this.subscription = interval(1000).subscribe(() => this.countUp());
+      console.log('timer started', this.subscription.closed);
     }
   }
   countUp() {
@@ -39,6 +43,7 @@ export class TimerService {
 
   pause() {
     this.subscription?.unsubscribe();
+    console.log('timer stopped', this.subscription?.closed);
   }
   stop() {
     this.pause();
