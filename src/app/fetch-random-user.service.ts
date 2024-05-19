@@ -1,7 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, tap, throwError } from 'rxjs';
-import { LoadingHandlerService } from './loading-handler.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,10 +8,7 @@ import { LoadingHandlerService } from './loading-handler.service';
 export class FetchRandomUserService {
   API_URL = 'https://randomuser.me/api/1.4/';
 
-  constructor(
-    private http: HttpClient,
-    private loadingHandler: LoadingHandlerService
-  ) {}
+  constructor(private http: HttpClient) {}
 
   fetchRandomUserData<T>(params: {
     [param: string]: string | boolean | number;

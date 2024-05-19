@@ -1,0 +1,14 @@
+@use "../../assets/font";
+@use "../../assets/colors";
+
+:host {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  padding: 16px;
+  font-size: font.$sm;
+  color: colors.$white;
+  background-color: #da1c1c;
+  border-radius: 10px;
+  z-index: 99;
+}

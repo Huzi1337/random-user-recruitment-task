@@ -19,6 +19,7 @@ import { BehaviorSubject, Subscription, map, tap } from 'rxjs';
 
 import { LoadingHandlerService } from '../loading-handler.service';
 import { SpinnerComponent } from '../spinner/spinner.component';
+import { ErrorComponent } from '../error/error.component';
 
 interface UserData {
   name: {
@@ -39,7 +40,14 @@ interface ApiResponse {
 @Component({
   selector: 'app-people',
   standalone: true,
-  imports: [AsyncPipe, NgIf, NgOptimizedImage, SpinnerComponent, NgClass],
+  imports: [
+    AsyncPipe,
+    NgIf,
+    NgOptimizedImage,
+    SpinnerComponent,
+    NgClass,
+    ErrorComponent,
+  ],
   templateUrl: './people.component.html',
   styleUrl: './people.component.scss',
 })
@@ -48,6 +56,7 @@ export class PeopleComponent implements OnInit, OnDestroy {
   userName: string | undefined;
   nextUserName: string | undefined;
   userPicture: string | undefined;
+  isError = false;
 
   isMouseOver$ = new BehaviorSubject(false);
 
@@ -103,7 +112,8 @@ export class PeopleComponent implements OnInit, OnDestroy {
           isPlatformServer(this.platformId)
             ? this.serverSideUserDataHandler(fullName, userPicture)
             : this.clientSideUserDataHandler(fullName, userPicture);
-        }
+        },
+        () => (this.isError = true)
       );
   }
 
