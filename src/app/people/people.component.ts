@@ -90,7 +90,7 @@ export class PeopleComponent implements OnInit, OnDestroy {
         this.userName = `${firstName} ${lastName}`;
         this.userPicture = picture.large;
         this.timer.reset();
-        if (!this.isMouseOver$) this.timer.start();
+        if (!this.isMouseOver$.getValue()) this.timer.start();
       });
   }
   ngOnDestroy(): void {
