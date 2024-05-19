@@ -19,4 +19,7 @@ export class LoadingHandlerService {
   finish() {
     this._isLoading$.next(false);
   }
+  get isLoading() {
+    return this._isLoading$.getValue();
+  }
 }

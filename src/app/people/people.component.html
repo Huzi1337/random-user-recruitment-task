@@ -3,30 +3,34 @@
     (mouseover)="onMouseOver()"
     (mouseleave)="onMouseLeave()"
     class="userImage"
-    *ngIf="
-      !(randomUserFetcher.loadingHandler.isLoading$ | async) && userPicture
-    "
+    *ngIf="userPicture"
     [ngSrc]="userPicture"
     fill
     priority
+    (load)="onImageLoad()"
   />
 </div>
 <div class="textContainer">
   <p>Hi! My name is</p>
   <h1
+    class="userName"
     (mouseover)="onMouseOver()"
     (mouseleave)="onMouseLeave()"
     *ngIf="userName"
   >
     {{ userName }}
   </h1>
+  <h1 class="namePlaceholder" *ngIf="!userName">Placeholder</h1>
 </div>
 <p>{{ timer.timeElapsed }}</p>
 <button
   (mouseover)="onMouseOver()"
   (mouseleave)="onMouseLeave()"
-  class="btn"
+  [ngClass]="{ btn: true, isLoading: loader.isLoading }"
   (click)="onClick()"
+  [disabled]="loader.isLoading"
 >
+  <app-spinner *ngIf="loader.isLoading" />
+
   New
 </button>

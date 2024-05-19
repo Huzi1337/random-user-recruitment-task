@@ -7,13 +7,18 @@ import {
 } from '@angular/core';
 import {
   AsyncPipe,
+  NgClass,
   NgIf,
   NgOptimizedImage,
+  isPlatformBrowser,
   isPlatformServer,
 } from '@angular/common';
 import { TimerService } from '../timer.service';
 import { FetchRandomUserService } from '../fetch-random-user.service';
 import { BehaviorSubject, Subscription, map, tap } from 'rxjs';
+
+import { LoadingHandlerService } from '../loading-handler.service';
+import { SpinnerComponent } from '../spinner/spinner.component';
 
 interface UserData {
   name: {
@@ -34,25 +39,27 @@ interface ApiResponse {
 @Component({
   selector: 'app-people',
   standalone: true,
-  imports: [AsyncPipe, NgIf, NgOptimizedImage],
+  imports: [AsyncPipe, NgIf, NgOptimizedImage, SpinnerComponent, NgClass],
   templateUrl: './people.component.html',
   styleUrl: './people.component.scss',
 })
 export class PeopleComponent implements OnInit, OnDestroy {
   cacheBuster = 0;
   userName: string | undefined;
+  nextUserName: string | undefined;
   userPicture: string | undefined;
-  isLoading = false;
+
   isMouseOver$ = new BehaviorSubject(false);
 
   timerSubscription!: Subscription;
-  isLoadingSubscription!: Subscription;
+
   isMouseOverSubscription!: Subscription;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     public timer: TimerService,
-    public randomUserFetcher: FetchRandomUserService
+    public randomUserFetcher: FetchRandomUserService,
+    public loader: LoadingHandlerService
   ) {}
 
   ngOnInit(): void {
@@ -60,26 +67,27 @@ export class PeopleComponent implements OnInit, OnDestroy {
     else this.clientSideInit();
   }
   serverSideInit() {
+    this.loader.start();
     this.fetchNewUser();
   }
   clientSideInit() {
+    this.loader.finish();
+    if (!this.userName || !this.userPicture) this.fetchNewUser();
     this.cacheBuster++;
     this.timerSubscription = this.timer.isComplete$.subscribe(() => {
       this.timer.pause();
       this.fetchNewUser();
     });
-    this.isLoadingSubscription =
-      this.randomUserFetcher.loadingHandler.isLoading$.subscribe(
-        (isLoading) => (this.isLoading = isLoading)
-      );
+
     this.isMouseOverSubscription = this.isMouseOver$.subscribe(
       (isMouseOver) =>
-        !this.isLoading &&
+        !this.loader.isLoading &&
         (isMouseOver ? this.timer.pause() : this.timer.start())
     );
   }
 
   fetchNewUser() {
+    this.loader.start();
     this.randomUserFetcher
       .fetchRandomUserData<ApiResponse>({
         inc: 'name,picture',
@@ -107,12 +115,18 @@ export class PeopleComponent implements OnInit, OnDestroy {
   clientSideUserDataHandler(name: string, picture: string) {
     const nextImage = new Image();
     nextImage.src = picture;
-    nextImage.onload = () => {
-      this.userName = name;
-      this.userPicture = picture;
+
+    this.nextUserName = name;
+    this.userPicture = picture;
+  }
+
+  onImageLoad() {
+    this.loader.finish();
+    this.userName = this.nextUserName;
+    if (isPlatformBrowser(this.platformId)) {
       this.timer.reset();
       if (!this.isMouseOver$.getValue()) this.timer.start();
-    };
+    }
   }
 
   onMouseOver() {
@@ -124,13 +138,12 @@ export class PeopleComponent implements OnInit, OnDestroy {
   }
 
   onClick() {
-    if (!this.isLoading) this.fetchNewUser();
+    if (!this.loader.isLoading) this.fetchNewUser();
   }
 
   ngOnDestroy(): void {
     this.timer.stop();
     this.timerSubscription?.unsubscribe();
-    this.isLoadingSubscription?.unsubscribe();
     this.isMouseOverSubscription?.unsubscribe();
   }
 }

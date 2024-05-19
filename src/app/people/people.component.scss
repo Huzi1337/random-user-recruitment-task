@@ -20,6 +20,16 @@
   overflow: hidden;
 }
 
+.userImage,
+.userName {
+  animation: appear 100ms ease-in;
+}
+
+.namePlaceholder {
+  color: transparent;
+  user-select: none;
+}
+
 .textContainer {
   gap: 16px;
   p {
@@ -29,11 +39,26 @@
 }
 
 .btn {
+  position: relative;
   background-color: colors.$main;
+
   color: colors.$white;
   padding: 12px 48px;
   border: 0;
   border-radius: 10px;
   cursor: pointer;
   transition-duration: 100ms;
+}
+
+.btn.isLoading {
+  color: transparent;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

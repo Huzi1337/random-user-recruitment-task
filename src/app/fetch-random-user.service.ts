@@ -11,17 +11,15 @@ export class FetchRandomUserService {
 
   constructor(
     private http: HttpClient,
-    public loadingHandler: LoadingHandlerService
+    private loadingHandler: LoadingHandlerService
   ) {}
 
   fetchRandomUserData<T>(params: {
     [param: string]: string | boolean | number;
   }) {
-    this.loadingHandler.start();
     return this.http.get<T>(this.API_URL, { params }).pipe(
       catchError(this.handleError),
       tap(() => {
-        this.loadingHandler.finish();
         console.log('Loading finished');
       })
     );
