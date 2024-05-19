@@ -8,7 +8,7 @@ import {
 import { AsyncPipe, NgIf, NgOptimizedImage } from '@angular/common';
 import { TimerService } from '../timer.service';
 import { FetchRandomUserService } from '../fetch-random-user.service';
-import { Subscription, map, tap } from 'rxjs';
+import { BehaviorSubject, Subscription, map, tap } from 'rxjs';
 
 interface UserData {
   name: {
@@ -38,7 +38,7 @@ export class PeopleComponent implements OnInit, OnDestroy {
   userName: string | undefined;
   userPicture: string | undefined;
   isLoading = false;
-  isMouseOver = false;
+  isMouseOver$ = new BehaviorSubject(false);
 
   timerSubscription!: Subscription;
   isLoadingSubscription!: Subscription;
@@ -58,17 +58,19 @@ export class PeopleComponent implements OnInit, OnDestroy {
       this.randomUserFetcher.loadingHandler.isLoading$.subscribe(
         (isLoading) => (this.isLoading = isLoading)
       );
+    this.isMouseOver$.subscribe(
+      (isMouseOver) =>
+        !this.isLoading &&
+        (isMouseOver ? this.timer.pause() : this.timer.start())
+    );
   }
 
   onMouseOver() {
-    if (!this.isLoading) this.timer.pause();
-    this.isMouseOver = true;
-    console.log('mouseover');
+    this.isMouseOver$.next(true);
   }
 
   onMouseLeave() {
-    if (!this.isLoading) this.timer.start();
-    this.isMouseOver = false;
+    this.isMouseOver$.next(false);
   }
 
   onClick() {
@@ -88,7 +90,7 @@ export class PeopleComponent implements OnInit, OnDestroy {
         this.userName = `${firstName} ${lastName}`;
         this.userPicture = picture.large;
         this.timer.reset();
-        if (!this.isMouseOver) this.timer.start();
+        if (!this.isMouseOver$) this.timer.start();
       });
   }
   ngOnDestroy(): void {
