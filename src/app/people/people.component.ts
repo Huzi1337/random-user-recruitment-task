@@ -20,6 +20,7 @@ import { BehaviorSubject, Subscription, map, tap } from 'rxjs';
 import { LoadingHandlerService } from '../loading-handler.service';
 import { SpinnerComponent } from '../spinner/spinner.component';
 import { ErrorComponent } from '../error/error.component';
+import { ErrorStateService } from '../error-state.service';
 
 interface UserData {
   name: {
@@ -56,7 +57,6 @@ export class PeopleComponent implements OnInit, OnDestroy {
   userName: string | undefined;
   nextUserName: string | undefined;
   userPicture: string | undefined;
-  isError = false;
 
   isMouseOver$ = new BehaviorSubject(false);
 
@@ -67,7 +67,8 @@ export class PeopleComponent implements OnInit, OnDestroy {
     @Inject(PLATFORM_ID) private platformId: Object,
     public timer: TimerService,
     public randomUserFetcher: FetchRandomUserService,
-    public loader: LoadingHandlerService
+    public loader: LoadingHandlerService,
+    public errorState: ErrorStateService
   ) {}
 
   ngOnInit(): void {
@@ -114,7 +115,6 @@ export class PeopleComponent implements OnInit, OnDestroy {
             ? this.serverSideUserDataHandler(fullName, userPicture)
             : this.clientSideUserDataHandler(fullName, userPicture);
         },
-        error: () => (this.isError = true),
       });
   }
 
