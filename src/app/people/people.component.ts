@@ -96,15 +96,16 @@ export class PeopleComponent implements OnInit, OnDestroy {
 
   fetchNewUser() {
     this.loader.start();
+    const httpParams = {
+      inc: 'name,picture',
+      noinfo: true,
+      cacheBuster: this.cacheBuster++,
+    };
     this.randomUserFetcher
-      .fetchRandomUserData<ApiResponse>({
-        inc: 'name,picture',
-        noinfo: true,
-        cacheBuster: this.cacheBuster++,
-      })
+      .fetchRandomUserData<ApiResponse>(httpParams)
       .pipe(map(({ results }) => results[0]))
-      .subscribe(
-        ({
+      .subscribe({
+        next: ({
           name: { first: firstName, last: lastName },
           picture: { large: userPicture },
         }) => {
@@ -113,8 +114,8 @@ export class PeopleComponent implements OnInit, OnDestroy {
             ? this.serverSideUserDataHandler(fullName, userPicture)
             : this.clientSideUserDataHandler(fullName, userPicture);
         },
-        () => (this.isError = true)
-      );
+        error: () => (this.isError = true),
+      });
   }
 
   serverSideUserDataHandler(name: string, picture: string) {
