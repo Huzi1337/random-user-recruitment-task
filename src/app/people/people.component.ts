@@ -52,7 +52,6 @@ export class PeopleComponent implements OnInit, OnDestroy {
   isMouseOver$ = new BehaviorSubject(false);
 
   timerSubscription!: Subscription;
-
   isMouseOverSubscription!: Subscription;
 
   constructor(

@@ -1,0 +1,16 @@
+@use "../../assets/colors";
+
+.container {
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.fineScript {
+  color: colors.$light;
+  a {
+    color: colors.$main;
+    text-decoration: none;
+  }
+}
