@@ -1,6 +1,6 @@
 # Description
 
-This is my implementation of a recruitment task. The task:
+This is my implementation of a recruitment task:
 
 Write application in Angular. The People and About tabs are seperated pages (router outlets)
 
