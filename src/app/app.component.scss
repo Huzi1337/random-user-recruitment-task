@@ -1,5 +1,11 @@
 @use "../assets/colors";
 
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
 .navbar {
   width: 100%;
   display: flex;
@@ -12,7 +18,7 @@
     font-weight: 400;
     text-decoration: none;
   }
-}
-.active {
-  font-weight: 700;
+  a.active {
+    font-weight: 700;
+  }
 }

@@ -8,7 +8,7 @@ import {
 import { AsyncPipe, NgIf, NgOptimizedImage } from '@angular/common';
 import { TimerService } from '../timer.service';
 import { FetchRandomUserService } from '../fetch-random-user.service';
-import { Subscription, map } from 'rxjs';
+import { Subscription, map, tap } from 'rxjs';
 
 interface UserData {
   name: {
@@ -37,25 +37,47 @@ export class PeopleComponent implements OnInit, OnDestroy {
   cacheBuster = 0;
   userName: string | undefined;
   userPicture: string | undefined;
+  isLoading = false;
+  isMouseOver = false;
+
   timerSubscription!: Subscription;
+  isLoadingSubscription!: Subscription;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     public timer: TimerService,
-    public fetchRandomUser: FetchRandomUserService
+    public randomUserFetcher: FetchRandomUserService
   ) {}
 
   ngOnInit(): void {
-    this.timer.start();
     this.fetchNewUser();
     this.timerSubscription = this.timer.isComplete$.subscribe(() =>
       this.fetchNewUser()
     );
+    this.isLoadingSubscription =
+      this.randomUserFetcher.loadingHandler.isLoading$.subscribe(
+        (isLoading) => (this.isLoading = isLoading)
+      );
+  }
+
+  onMouseOver() {
+    if (!this.isLoading) this.timer.pause();
+    this.isMouseOver = true;
+    console.log('mouseover');
+  }
+
+  onMouseLeave() {
+    if (!this.isLoading) this.timer.start();
+    this.isMouseOver = false;
+  }
+
+  onClick() {
+    if (!this.isLoading) this.fetchNewUser();
   }
 
   fetchNewUser() {
-    console.log('fetching');
-    this.fetchRandomUser
+    this.timer.pause();
+    this.randomUserFetcher
       .fetchRandomUserData<ApiResponse>({
         inc: 'name,picture',
         noinfo: true,
@@ -65,10 +87,13 @@ export class PeopleComponent implements OnInit, OnDestroy {
       .subscribe(({ name: { first: firstName, last: lastName }, picture }) => {
         this.userName = `${firstName} ${lastName}`;
         this.userPicture = picture.large;
+        this.timer.reset();
+        if (!this.isMouseOver) this.timer.start();
       });
   }
   ngOnDestroy(): void {
     this.timer.stop();
     this.timerSubscription?.unsubscribe();
+    this.isLoadingSubscription?.unsubscribe();
   }
 }

@@ -2,10 +2,19 @@
 
 * {
   font-family: "Inter", sans-serif;
+  box-sizing: border-box;
   font-size: font.$md;
   margin: 0;
 }
 
 h1 {
   font-size: font.$lg;
+}
+
+button,
+a {
+  transition-duration: 100ms;
+  &:hover {
+    transform: scale(1.05);
+  }
 }

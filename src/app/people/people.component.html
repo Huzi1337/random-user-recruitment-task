@@ -1,12 +1,32 @@
-<div (mouseover)="timer.pause()" (mouseleave)="timer.start()">
-  {{ timer.timeElapsed }}
+<div class="imageContainer">
+  <img
+    (mouseover)="onMouseOver()"
+    (mouseleave)="onMouseLeave()"
+    class="userImage"
+    *ngIf="
+      !(randomUserFetcher.loadingHandler.isLoading$ | async) && userPicture
+    "
+    [ngSrc]="userPicture"
+    fill
+    priority
+  />
 </div>
-<button (click)="fetchNewUser()">Bass</button>
-<p *ngIf="userName">{{ userName }}</p>
-<img
-  *ngIf="!(fetchRandomUser.loadingHandler.isLoading$ | async) && userPicture"
-  [ngSrc]="userPicture"
-  width="300"
-  height="300"
-  priority
-/>
+<div class="textContainer">
+  <p>Hi! My name is</p>
+  <h1
+    (mouseover)="onMouseOver()"
+    (mouseleave)="onMouseLeave()"
+    *ngIf="userName"
+  >
+    {{ userName }}
+  </h1>
+</div>
+<p>{{ timer.timeElapsed }}</p>
+<button
+  (mouseover)="onMouseOver()"
+  (mouseleave)="onMouseLeave()"
+  class="btn"
+  (click)="onClick()"
+>
+  New
+</button>

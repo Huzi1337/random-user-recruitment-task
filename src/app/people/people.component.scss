@@ -1,0 +1,39 @@
+@use "../../assets/colors";
+:host,
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+:host {
+  gap: 48px;
+  flex-grow: 1;
+}
+
+.imageContainer {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.textContainer {
+  gap: 16px;
+  p {
+    color: colors.$light;
+    user-select: none;
+  }
+}
+
+.btn {
+  background-color: colors.$main;
+  color: colors.$white;
+  padding: 12px 48px;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition-duration: 100ms;
+}
