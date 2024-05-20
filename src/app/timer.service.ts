@@ -13,9 +13,7 @@ export class TimerService {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     @Inject('timedInterval') private timedInterval: number
-  ) {
-    this.isComplete$.subscribe(() => console.log('The user should reload!'));
-  }
+  ) {}
 
   reset() {
     this.timeElapsed = 0;
@@ -27,7 +25,6 @@ export class TimerService {
       (!this.subscription || this.subscription?.closed)
     ) {
       this.subscription = interval(1000).subscribe(() => this.countUp());
-      console.log('timer started', this.subscription.closed);
     }
   }
   countUp() {

@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, tap, throwError } from 'rxjs';
 import { ErrorStateService } from './error-state.service';
@@ -14,12 +14,9 @@ export class FetchRandomUserService {
   fetchRandomUserData<T>(params: {
     [param: string]: string | boolean | number;
   }) {
-    return this.http.get<T>(this.API_URL, { params }).pipe(
-      catchError(this.handleError.bind(this)),
-      tap(() => {
-        console.log('Loading finished');
-      })
-    );
+    return this.http
+      .get<T>(this.API_URL, { params })
+      .pipe(catchError(this.handleError.bind(this)));
   }
 
   private handleError() {

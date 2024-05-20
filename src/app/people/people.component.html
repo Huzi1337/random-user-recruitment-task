@@ -9,6 +9,7 @@
     fill
     priority
     (load)="onImageLoad()"
+    alt="A random user's image."
   />
 </div>
 <div class="textContainer">
@@ -23,7 +24,7 @@
   </h1>
   <h1 class="namePlaceholder" *ngIf="!userName">Placeholder</h1>
 </div>
-<p>{{ timer.timeElapsed }}</p>
+
 <button
   (mouseover)="onMouseOver()"
   (mouseleave)="onMouseLeave()"
