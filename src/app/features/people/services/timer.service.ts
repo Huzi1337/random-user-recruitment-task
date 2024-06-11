@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { Subject, Subscription, interval, tap } from 'rxjs';
+import { Subject, Subscription, interval } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +28,7 @@ export class TimerService {
     }
   }
   countUp() {
+    console.log(this.timeElapsed);
     this.timeElapsed++;
     this.checkCompletion();
   }

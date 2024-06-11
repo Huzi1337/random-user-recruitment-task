@@ -1,11 +1,11 @@
 <app-error *ngIf="errorState.isError" />
 <div class="imageContainer">
   <img
-    (mouseover)="onMouseOver()"
-    (mouseleave)="onMouseLeave()"
+    appMouseOver
+    [isMouseOver$]="isMouseOver$"
     class="userImage"
-    *ngIf="userPicture"
-    [ngSrc]="userPicture"
+    *ngIf="picture"
+    [ngSrc]="picture"
     fill
     priority
     (load)="onImageLoad()"
@@ -14,20 +14,20 @@
 </div>
 <div class="textContainer">
   <p>Hi! My name is</p>
-  <h1
-    class="userName"
-    (mouseover)="onMouseOver()"
-    (mouseleave)="onMouseLeave()"
-    *ngIf="userName"
-  >
-    {{ userName }}
-  </h1>
-  <h1 class="namePlaceholder" *ngIf="!userName">Placeholder</h1>
+
+  <ng-container *ngIf="name; else placeholderName">
+    <h1 class="userName" appMouseOver [isMouseOver$]="isMouseOver$">
+      {{ name }}
+    </h1>
+  </ng-container>
+  <ng-template #placeholderName>
+    <h1 class="namePlaceholder">Placeholder</h1>
+  </ng-template>
 </div>
 
 <button
-  (mouseover)="onMouseOver()"
-  (mouseleave)="onMouseLeave()"
+  appMouseOver
+  [isMouseOver$]="isMouseOver$"
   [ngClass]="{ btn: true, isLoading: loader.isLoading }"
   (click)="onClick()"
   [disabled]="loader.isLoading"
