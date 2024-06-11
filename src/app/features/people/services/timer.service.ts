@@ -28,7 +28,6 @@ export class TimerService {
     }
   }
   private countUp(): void {
-    console.log(this.timeElapsed);
     this.timeElapsed++;
     this.checkCompletion();
   }

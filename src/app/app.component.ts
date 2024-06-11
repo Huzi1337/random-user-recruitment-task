@@ -17,7 +17,5 @@ import { AsyncPipe, NgIf, NgOptimizedImage } from '@angular/common';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'DataedoRecruitmentTask';
-
   constructor() {}
 }

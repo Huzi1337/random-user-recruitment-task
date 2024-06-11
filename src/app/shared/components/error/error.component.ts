@@ -8,5 +8,6 @@ import { Component, Input } from '@angular/core';
   styleUrl: './error.component.scss',
 })
 export class ErrorComponent {
-  @Input() message: string = 'An error has occurred. Try refreshing the page.';
+  @Input() public message: string =
+    'An error has occurred. Try refreshing the page.';
 }

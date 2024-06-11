@@ -64,9 +64,11 @@ export class PeopleComponent implements OnInit, OnDestroy {
     if (isPlatformServer(this.platformId)) this.serverSideInit();
     if (isPlatformBrowser(this.platformId)) this.clientSideInit();
   }
+
   private serverSideInit(): void {
     this.loader.start();
   }
+
   private clientSideInit(): void {
     this.loader.finish();
     this.timerSubscription = this.timer.isComplete$.subscribe(() => {
