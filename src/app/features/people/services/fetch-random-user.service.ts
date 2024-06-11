@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { ErrorStateService } from '../../../core/error-state.service';
+import { LoadingHandlerService } from '../../../core/loading-handler.service';
 
 interface UserData {
   name: {
@@ -30,10 +31,15 @@ export class FetchRandomUserService {
     cacheBuster: 0,
   };
 
-  constructor(private http: HttpClient, public errorState: ErrorStateService) {}
+  constructor(
+    private http: HttpClient,
+    public errorState: ErrorStateService,
+    private loader: LoadingHandlerService
+  ) {}
 
   public fetchRandomUserData(): Observable<{ name: string; picture: string }> {
     this.PARAMS.cacheBuster++;
+    this.loader.start();
     return this.http
       .get<ApiResponse>(this.API_URL, { params: this.PARAMS })
       .pipe(

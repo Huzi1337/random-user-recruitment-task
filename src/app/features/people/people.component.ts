@@ -76,7 +76,6 @@ export class PeopleComponent implements OnInit, OnDestroy {
   }
 
   private fetchNewUser(): void {
-    this.loader.start();
     this.fetchSubscription = this.randomUserFetcher
       .fetchRandomUserData()
       .subscribe(({ name, picture }) => {
