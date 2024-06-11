@@ -15,7 +15,7 @@ import { BehaviorSubject } from 'rxjs';
   standalone: true,
 })
 export class ImageLoadHandlerDirective {
-  @Input({ required: true }) isMouseOver$!: BehaviorSubject<boolean>;
+  @Input({ required: true }) public isMouseOver$!: BehaviorSubject<boolean>;
 
   constructor(
     private loader: LoadingHandlerService,
@@ -23,7 +23,7 @@ export class ImageLoadHandlerDirective {
     private timer: TimerService
   ) {}
 
-  @HostListener('load') onImageLoad() {
+  @HostListener('load') public onImageLoad(): void {
     this.loader.finish();
     if (isPlatformBrowser(this.platformId)) {
       this.timer.reset();
