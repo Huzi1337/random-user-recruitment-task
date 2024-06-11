@@ -23,6 +23,7 @@ import { SpinnerComponent } from '../../shared/components/spinner/spinner.compon
 import { ErrorComponent } from '../../shared/components/error/error.component';
 import { ErrorStateService } from '../../core/error-state.service';
 import { MouseOverDirective } from './directives/mouse-over.directive';
+import { ImageLoadHandlerDirective } from './directives/image-load-handler.directive';
 
 @Component({
   selector: 'app-people',
@@ -36,6 +37,7 @@ import { MouseOverDirective } from './directives/mouse-over.directive';
     ErrorComponent,
     JsonPipe,
     MouseOverDirective,
+    ImageLoadHandlerDirective,
   ],
   templateUrl: './people.component.html',
   styleUrl: './people.component.scss',
@@ -48,7 +50,6 @@ export class PeopleComponent implements OnInit, OnDestroy {
 
   fetchSubscription!: Subscription;
   timerSubscription!: Subscription;
-  isMouseOverSubscription!: Subscription;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -85,14 +86,6 @@ export class PeopleComponent implements OnInit, OnDestroy {
       });
   }
 
-  onImageLoad() {
-    this.loader.finish();
-    if (isPlatformBrowser(this.platformId)) {
-      this.timer.reset();
-      if (!this.isMouseOver$.getValue()) this.timer.start();
-    }
-  }
-
   onClick() {
     if (!this.loader.isLoading) this.fetchNewUser();
   }
@@ -100,7 +93,6 @@ export class PeopleComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.timer.stop();
     this.timerSubscription?.unsubscribe();
-    this.isMouseOverSubscription?.unsubscribe();
     this.fetchSubscription?.unsubscribe();
   }
 }

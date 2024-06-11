@@ -2,13 +2,13 @@
 <div class="imageContainer">
   <img
     appMouseOver
+    appImageLoadHandler
     [isMouseOver$]="isMouseOver$"
     class="userImage"
     *ngIf="picture"
     [ngSrc]="picture"
     fill
     priority
-    (load)="onImageLoad()"
     alt="A random user's image."
   />
 </div>
