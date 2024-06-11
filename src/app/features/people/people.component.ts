@@ -43,13 +43,13 @@ import { ImageLoadHandlerDirective } from './directives/image-load-handler.direc
   styleUrl: './people.component.scss',
 })
 export class PeopleComponent implements OnInit, OnDestroy {
-  name!: string;
-  picture!: string;
+  public name!: string;
+  public picture!: string;
 
   public isMouseOver$ = new BehaviorSubject(false);
 
-  fetchSubscription!: Subscription;
-  timerSubscription!: Subscription;
+  private fetchSubscription!: Subscription;
+  private timerSubscription!: Subscription;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -59,15 +59,15 @@ export class PeopleComponent implements OnInit, OnDestroy {
     public errorState: ErrorStateService
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.fetchNewUser();
     if (isPlatformServer(this.platformId)) this.serverSideInit();
     if (isPlatformBrowser(this.platformId)) this.clientSideInit();
   }
-  serverSideInit() {
+  private serverSideInit(): void {
     this.loader.start();
   }
-  clientSideInit() {
+  private clientSideInit(): void {
     this.loader.finish();
     this.timerSubscription = this.timer.isComplete$.subscribe(() => {
       this.timer.pause();
@@ -75,7 +75,7 @@ export class PeopleComponent implements OnInit, OnDestroy {
     });
   }
 
-  fetchNewUser() {
+  private fetchNewUser(): void {
     this.loader.start();
     this.fetchSubscription = this.randomUserFetcher
       .fetchRandomUserData()
@@ -86,11 +86,11 @@ export class PeopleComponent implements OnInit, OnDestroy {
       });
   }
 
-  onClick() {
+  public onClick(): void {
     if (!this.loader.isLoading) this.fetchNewUser();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.timer.stop();
     this.timerSubscription?.unsubscribe();
     this.fetchSubscription?.unsubscribe();
