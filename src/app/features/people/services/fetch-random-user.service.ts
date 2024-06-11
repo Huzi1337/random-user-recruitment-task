@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, tap, throwError } from 'rxjs';
-import { ErrorStateService } from './error-state.service';
+import { ErrorStateService } from '../../../core/error-state.service';
 
 @Injectable({
   providedIn: 'root',

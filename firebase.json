@@ -13,12 +13,12 @@
     }
   ],
   "hosting": {
-    "public": "/dist/dataedo-recruitment-task/browser",
+    "public": "/functions/dataedo-recruitment-task/browser",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
         "source": "**",
-        "destination": "/index.html"
+        "function": "ssrFunction"
       }
     ]
   }

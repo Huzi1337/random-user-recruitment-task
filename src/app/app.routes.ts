@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { PeopleComponent } from './people/people.component';
-import { AboutComponent } from './about/about.component';
+import { PeopleComponent } from './features/people/people.component';
+import { AboutComponent } from './features/about/about.component';
 
 export const routes: Routes = [
   { path: 'people', title: 'people', component: PeopleComponent },
