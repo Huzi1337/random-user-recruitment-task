@@ -1,17 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, tap, throwError } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 import { ErrorStateService } from '../../../core/error-state.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FetchRandomUserService {
-  API_URL = 'https://randomuser.me/api/1.4/';
+  private API_URL = 'https://randomuser.me/api/1.4/';
 
   constructor(private http: HttpClient, public errorState: ErrorStateService) {}
 
-  fetchRandomUserData<T>(params: {
+  public fetchRandomUserData<T>(params: {
     [param: string]: string | boolean | number;
   }) {
     return this.http

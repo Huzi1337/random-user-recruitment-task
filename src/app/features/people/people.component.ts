@@ -18,8 +18,8 @@ import { FetchRandomUserService } from './services/fetch-random-user.service';
 import { BehaviorSubject, Subscription, map, tap } from 'rxjs';
 
 import { LoadingHandlerService } from '../../core/loading-handler.service';
-import { SpinnerComponent } from '../../shared/spinner/spinner.component';
-import { ErrorComponent } from '../../shared/error/error.component';
+import { SpinnerComponent } from '../../shared/components/spinner/spinner.component';
+import { ErrorComponent } from '../../shared/components/error/error.component';
 import { ErrorStateService } from '../../core/error-state.service';
 
 interface UserData {
