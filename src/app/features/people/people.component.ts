@@ -29,13 +29,11 @@ import { ImageLoadHandlerDirective } from './directives/image-load-handler.direc
   selector: 'app-people',
   standalone: true,
   imports: [
-    AsyncPipe,
     NgIf,
     NgOptimizedImage,
     SpinnerComponent,
     NgClass,
     ErrorComponent,
-    JsonPipe,
     MouseOverDirective,
     ImageLoadHandlerDirective,
   ],
