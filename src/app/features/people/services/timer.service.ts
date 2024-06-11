@@ -7,19 +7,19 @@ import { Subject, Subscription, interval } from 'rxjs';
 })
 export class TimerService {
   private subscription!: Subscription;
-  isComplete$ = new Subject<boolean>();
-  timeElapsed = 0;
+  public isComplete$ = new Subject<boolean>();
+  private timeElapsed = 0;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     @Inject('timedInterval') private timedInterval: number
   ) {}
 
-  reset() {
+  public reset(): void {
     this.timeElapsed = 0;
   }
 
-  start() {
+  public start(): void {
     if (
       isPlatformBrowser(this.platformId) &&
       (!this.subscription || this.subscription?.closed)
@@ -27,22 +27,22 @@ export class TimerService {
       this.subscription = interval(1000).subscribe(() => this.countUp());
     }
   }
-  countUp() {
+  private countUp(): void {
     console.log(this.timeElapsed);
     this.timeElapsed++;
     this.checkCompletion();
   }
-  checkCompletion() {
+  private checkCompletion(): void {
     if (this.timeElapsed >= this.timedInterval) {
       this.isComplete$.next(true);
       this.timeElapsed = 0;
     }
   }
 
-  pause() {
+  public pause(): void {
     this.subscription?.unsubscribe();
   }
-  stop() {
+  public stop(): void {
     this.pause();
     this.reset();
   }

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, tap, throwError } from 'rxjs';
+import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { ErrorStateService } from '../../../core/error-state.service';
 
 interface UserData {
@@ -32,7 +32,7 @@ export class FetchRandomUserService {
 
   constructor(private http: HttpClient, public errorState: ErrorStateService) {}
 
-  public fetchRandomUserData() {
+  public fetchRandomUserData(): Observable<{ name: string; picture: string }> {
     this.PARAMS.cacheBuster++;
     return this.http
       .get<ApiResponse>(this.API_URL, { params: this.PARAMS })
@@ -47,7 +47,7 @@ export class FetchRandomUserService {
       );
   }
 
-  private handleError() {
+  private handleError(): Observable<never> {
     this.errorState.enableError();
     return throwError(
       () => new Error('Something bad happened; please try again later.')
